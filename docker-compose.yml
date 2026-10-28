@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      - OPENAI_API_KEY
+      - AZURE_OPENAI_API_KEY
+      - AZURE_OPENAI_API_VERSION
+      - AZURE_OPENAI_ENDPOINT
+      - SNOWFLAKE_ACCOUNT
+      - SNOWFLAKE_USER
+      - SNOWFLAKE_PASSWORD
+      - SNOWFLAKE_ROLE
+      - SNOWFLAKE_WAREHOUSE
+      - SNOWFLAKE_DATABASE
+      - SNOWFLAKE_SCHEMA
+      - SEMANTIC_MODEL_TABLE
+      - BUSINESS_DOCS_TABLE
+      - EMAIL_USER
+      - EMAIL_APP_PASSWORD
+      - CHECKPOINT_DB=/data/checkpoints.sqlite
+      - USE_FAKE_DB
+    volumes:
+      - checkpoints:/data
+    ports: ["8000:8000"]
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    environment:
+      - (same as api)
+    ports: ["8501:8501"]
+volumes:
+  checkpoints: {}
